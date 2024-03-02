@@ -14,7 +14,73 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
   name String
-  password String 
+  email String @unique
+  password String
+  purchases Purchase[]
+  shoppingCart ShoppingCart[]
+  wishList Wishlist[]
+
+  @@map("users")
+}
+
+model Vendor {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  rating Float
+  products Product[]
+
+  @@map("vendors")
+}
+model Product {
+  id Int @id @default(autoincrement())
+  price Float
+  name String
+  stock Decimal
+  description String
+  announcedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  vendor Vendor @relation(fields: [vendorId], references: [id])
+  vendorId Int @map("vendor_id")
+  wishLists Wishlist[]
+  shoppingCarts ShoppingCart[]
+  sales Purchase[]
+
+  @@map("products")
+}
+
+model Purchase {
+  buyer User @relation(fields: [buyerId], references: [id])
+  buyerId Int @map("buyer_id")
+  product Product @relation(fields: [productId], references: [id])
+  productId Int @map("product_id")
+  date DateTime @default(now())
+  @@id([productId, buyerId])
+
+  @@map("purchases")
+}
+
+model Wishlist {
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int @map("user_id")
+  product Product @relation(fields: [productId], references: [id])
+  productId Int @map("product_id")
+  @@id([userId, productId])
+
+  @@map("wishlists")
+}
+
+model ShoppingCart {
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int @map("user_id")
+  product Product @relation(fields: [productId], references: [id], onUpdate: Cascade)
+  productId Int @map("product_id")
+  ammount Int
+  addedAt DateTime @default(now())
+  @@id([userId, productId])
+
+  @@map("shopping_carts")
 }
