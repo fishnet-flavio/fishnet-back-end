@@ -24,7 +24,7 @@ export class ProductController {
                 Perfeita para grelhar, assar ou preparar em uma variedade de pratos deliciosos, nossa tilápia é uma escolha excelente para refeições saudáveis e saborosas. Faça seu pedido agora e experimente a diferença do verdadeiro sabor fresco da tilápia!`
             },
             {
-                id: 1,
+                id: 2,
                 itemName: "Pirarucu",
                 stock: 6,
                 vendor: {

@@ -18,6 +18,7 @@ model User {
   name String
   email String @unique
   password String
+  vendor Vendor?
   purchases Purchase[]
   shoppingCart ShoppingCart[]
   wishList Wishlist[]
@@ -26,10 +27,8 @@ model User {
 }
 
 model Vendor {
-  id Int @id @default(autoincrement())
-  name String
-  email String @unique
-  password String
+  user User @relation(fields: [id], references: [id])
+  id Int @id @map("user_id")
   rating Float
   products Product[]
 
