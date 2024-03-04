@@ -4,5 +4,4 @@ export class ProductEntity {
     name: string;
     stock: number;
     description: string;
-    vendorId: number;
 }
