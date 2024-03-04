@@ -29,7 +29,7 @@ export class ProductController {
                 stock: 6,
                 vendor: {
                     id: 2,
-                    name: "Adalberto",
+                    name: "Jucas",
                     rating: 54
                 },
                 price: 21.75,
