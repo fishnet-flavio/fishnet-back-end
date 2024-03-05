@@ -10,7 +10,11 @@ export class UserService {
         return await this.userRepository.create(user);
     }
 
-    async getOneByID(userId: number) {
-        return await this.userRepository.findOneById(userId);
+    async getOneByID(id: number) {
+        return await this.userRepository.findOneById(id);
+    }
+
+    async getOneByEmail(email: string) {
+        return await this.userRepository.findOneByEmail(email);
     }
 }
