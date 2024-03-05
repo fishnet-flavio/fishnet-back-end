@@ -29,7 +29,7 @@ model User {
 model Vendor {
   user User @relation(fields: [id], references: [id])
   id Int @id @map("user_id")
-  rating Float
+  rating Float?
   products Product[]
 
   @@map("vendors")

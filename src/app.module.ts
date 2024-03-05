@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
   imports: [
     UserModule,
     ProductModule,
+    PrismaModule
   ],
   controllers: [],
   providers: [],
