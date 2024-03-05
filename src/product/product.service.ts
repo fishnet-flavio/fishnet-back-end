@@ -7,15 +7,15 @@ import { ProductEntity } from "./entity/product.entity";
 export class ProductService {
     constructor(private readonly productRepository: ProductRepository) {}
 
-    async create(product: CreateProductDTO) : Promise<ProductEntity> {
+    async create(product: CreateProductDTO) {
         return await this.productRepository.create(product);
     }
 
-    async getAll() : Promise<ProductEntity[]> {
+    async getAll() {
         return await this.productRepository.getAll();
     }
 
-    async getOneById(productId: number) : Promise<ProductEntity> {
+    async getOneById(productId: number) {
         return await this.productRepository.getOneById(productId);
     }
 }
