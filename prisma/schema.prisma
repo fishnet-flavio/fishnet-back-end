@@ -16,13 +16,14 @@ model User {
   shoppingCart ShoppingCart[]
   vendor       Vendor?
   wishList     Wishlist[]
+  ratings      Rating[]
 
   @@map("users")
 }
 
 model Vendor {
   id       Int       @id @default(autoincrement()) @map("user_id")
-  rating   Float?
+  rating   Rating[]
   products Product[]
   user     User      @relation(fields: [id], references: [id])
 
@@ -47,27 +48,28 @@ model Product {
 }
 
 model Purchase {
+  id        Int      @id @default(autoincrement())
   buyerId   Int      @map("buyer_id")
   productId Int      @map("product_id")
   date      DateTime @default(now())
   product   Product  @relation(fields: [productId], references: [id])
   buyer     User     @relation(fields: [buyerId], references: [id])
 
-  @@id([productId, buyerId])
   @@map("purchases")
 }
 
 model Wishlist {
+  id        Int     @id @default(autoincrement())
   userId    Int     @map("user_id")
   productId Int     @map("product_id")
   product   Product @relation(fields: [productId], references: [id])
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([userId, productId])
   @@map("wishlists")
 }
 
 model ShoppingCart {
+  id        Int      @id @default(autoincrement())
   userId    Int      @map("user_id")
   productId Int      @map("product_id")
   ammount   Int
@@ -75,6 +77,16 @@ model ShoppingCart {
   product   Product  @relation(fields: [productId], references: [id])
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([userId, productId])
   @@map("shopping_carts")
+}
+
+model Rating {
+  id       Int    @id @default(autoincrement())
+  userId   Int    @map("user_id")
+  vendorId Int    @map("vendor_id")
+  ammount  Float
+  user     User   @relation(fields: [userId], references: [id])
+  vendor   Vendor @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  @@map("ratings")
 }

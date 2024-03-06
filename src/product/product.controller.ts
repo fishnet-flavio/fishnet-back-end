@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { CreateProductDTO } from "./dto/create-product.dto";
+import { AuthGuard } from "src/auth/guard/auth.guard";
+import { Public } from "src/auth/decorator/public.decorator";
 
 @Controller("product")
 export class ProductController {
@@ -11,11 +13,13 @@ export class ProductController {
         return await this.productService.create(product);
     }
 
+    @Public()
     @Get()
     async getAll() {
         return await this.productService.getAll();
     }
 
+    @Public()
     @Get()
     async getOneById(@Body() productId: number) {
         return await this.productService.getOneById(productId);
