@@ -2,11 +2,13 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards }
 import { AuthService } from "./auth.service";
 import { SignInDTO } from "src/auth/dto/sign-in.dto";
 import { AuthGuard } from "./guard/auth.guard";
+import { Public } from "./decorator/public.decorator";
 
 @Controller("auth")
 export class AuthController {
     constructor(private authService: AuthService) {}
 
+    @Public()
     @HttpCode(HttpStatus.OK)
     @Post("login")
     async signIn(@Body() signInDTO: SignInDTO) {

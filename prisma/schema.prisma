@@ -13,18 +13,18 @@ model User {
   email        String         @unique
   password     String
   purchases    Purchase[]
+  ratings      Rating[]
   shoppingCart ShoppingCart[]
   vendor       Vendor?
   wishList     Wishlist[]
-  ratings      Rating[]
 
   @@map("users")
 }
 
 model Vendor {
   id       Int       @id @default(autoincrement()) @map("user_id")
-  rating   Rating[]
   products Product[]
+  rating   Float     @default(5)
   user     User      @relation(fields: [id], references: [id])
 
   @@map("vendors")
@@ -40,6 +40,7 @@ model Product {
   updatedAt     DateTime       @updatedAt
   vendorId      Int            @map("vendor_id")
   vendor        Vendor         @relation(fields: [vendorId], references: [id])
+  rating        Rating[]
   sales         Purchase[]
   shoppingCarts ShoppingCart[]
   wishLists     Wishlist[]
@@ -52,8 +53,8 @@ model Purchase {
   buyerId   Int      @map("buyer_id")
   productId Int      @map("product_id")
   date      DateTime @default(now())
-  product   Product  @relation(fields: [productId], references: [id])
   buyer     User     @relation(fields: [buyerId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@map("purchases")
 }
@@ -62,8 +63,8 @@ model Wishlist {
   id        Int     @id @default(autoincrement())
   userId    Int     @map("user_id")
   productId Int     @map("product_id")
-  product   Product @relation(fields: [productId], references: [id])
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("wishlists")
 }
@@ -74,19 +75,19 @@ model ShoppingCart {
   productId Int      @map("product_id")
   ammount   Int
   addedAt   DateTime @default(now())
-  product   Product  @relation(fields: [productId], references: [id])
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@map("shopping_carts")
 }
 
 model Rating {
-  id       Int    @id @default(autoincrement())
-  userId   Int    @map("user_id")
-  vendorId Int    @map("vendor_id")
-  ammount  Float
-  user     User   @relation(fields: [userId], references: [id])
-  vendor   Vendor @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  id        Int    @id @default(autoincrement())
+  userId    Int    @map("user_id")
+  productId Int    @map("product_id")
+  ammount   Float
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User   @relation(fields: [userId], references: [id])
 
   @@map("ratings")
 }

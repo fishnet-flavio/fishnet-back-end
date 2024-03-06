@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { Public } from "src/auth/decorator/public.decorator";
+import { UpdateUserDTO } from "./dto/update-user.dto";
 
 @Controller("user")
 export class UserController {
@@ -15,7 +16,17 @@ export class UserController {
 
     @Public()
     @Get("/:id")
-    async getOneById(@Param("id") id: string) {
-        return await this.userService.getOneByID(Number(id));
+    async getOneById(@Param("id") id: number) {
+        return await this.userService.getOneByID(id);
+    }
+
+    @Patch("/:id")
+    async update(@Param("id") id: number, @Body() newData: UpdateUserDTO) {
+        return await this.userService.update(id, newData);
+    }
+
+    @Delete("/:id")
+    async delete(@Param("id") id: number) {
+        return await this.userService.delete(id);
     }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { CreateProductDTO } from "./dto/create-product.dto";
 import { AuthGuard } from "src/auth/guard/auth.guard";
@@ -20,8 +20,8 @@ export class ProductController {
     }
 
     @Public()
-    @Get()
-    async getOneById(@Body() productId: number) {
-        return await this.productService.getOneById(productId);
+    @Get("/:id")
+    async getOneById(@Param("id") id: number) {
+        return await this.productService.getOneById(id);
     }
 }

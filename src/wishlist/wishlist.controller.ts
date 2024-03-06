@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { WishListService } from "./wishlist.service";
 import { CreateWishListDTO } from "./dto/create-wishlist.dto";
 
@@ -9,6 +9,11 @@ export class WishListController {
     @Post()
     async create(@Body() wishlist: CreateWishListDTO) {
         return await this.wishListService.create(wishlist); 
+    }
+
+    @Get(":/id")
+    async getAllFromUser(@Param("id") id: number) {
+        return await this.wishListService.getAllFromUser(id);
     }
 
     @Delete()
