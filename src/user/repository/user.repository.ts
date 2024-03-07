@@ -3,6 +3,7 @@ import { CreateUserDTO } from "../dto/create-user.dto";
 import { UserEntity } from "../entity/user.entity";
 import { PrismaService } from "src/prisma/prisma.service";
 import { UpdateUserDTO } from "../dto/update-user.dto";
+import { ReturnUserDTO } from "../dto/return-user.dto";
 
 @Injectable()
 export class UserRepository {
@@ -36,10 +37,13 @@ export class UserRepository {
     async findOneById(id: number) {
         return await this.prisma.user.findUnique({
             where: { id },
-            include: {
+            select: {
+                id: true,
+                email: true,
+                name: true,
                 vendor: {
                     include: {
-                        products: true
+                        products: true,
                     },
                 },
             },

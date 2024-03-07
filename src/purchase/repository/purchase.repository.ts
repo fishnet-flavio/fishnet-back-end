@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreatePurchaseDTO } from "../dto/create-purchase.dto";
+import { UpdatePurchaseDTO } from "../dto/update-purchase.dto";
 
 @Injectable()
 export class PurchaseRepository {
@@ -24,4 +25,20 @@ export class PurchaseRepository {
         });
     }
     
+    async findAll() {
+        return await this.prisma.purchase.findMany();
+    }
+
+    async findOneById(id: number) {
+        return await this.prisma.purchase.findUnique({
+            where: { id },
+        });
+    }
+
+    async update(id: number, newData: UpdatePurchaseDTO) {
+        return await this.prisma.purchase.update({
+            where: { id },
+            data: newData,
+        });
+    }
 }
