@@ -15,7 +15,6 @@ export class AuthController {
         return this.authService.signIn(signInDTO);
     }
 
-    @UseGuards(AuthGuard)
     @Get("profile")
     getProfile(@Request() req) {
         return req.user
