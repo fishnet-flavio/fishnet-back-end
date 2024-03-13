@@ -1,5 +1,7 @@
+import { ReturnUserDTO } from "./return-user.dto";
+
 export class ReturnVendorDTO {
     id: number;
-    name: string;
     rating: number;
+    user: ReturnUserDTO;
 }

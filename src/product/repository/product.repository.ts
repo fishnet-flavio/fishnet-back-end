@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { ProductEntity } from "../entity/product.entity";
 import { CreateProductDTO } from "../dto/create-product.dto";
 import { UpdateProductDTO } from "../dto/update-product.dto";
 import { PrismaService } from "src/prisma/prisma.service";
+import { ReturnProductDTO } from "../dto/return-product.dto";
 
 @Injectable()
 export class ProductRepository {
@@ -24,20 +24,27 @@ export class ProductRepository {
         }});
     }
 
-    async getAll()  {
-        return await this.prisma.product.findMany({
+    async getAll(): Promise<ReturnProductDTO[]>  {
+        const product = await this.prisma.product.findMany({
             include: {
                 vendor: {
                     include: {
                         user: true
                     },
                 },
+                wishLists: true,
             },
-        });
+        }) as ReturnProductDTO[];
+        if (product) {
+            product.forEach(p => {
+                delete p.vendor.user.password;
+            });
+        }
+        return product;
     }
 
-    async getOneById(id: number) {
-        return await this.prisma.product.findUnique({
+    async getOneById(id: number): Promise<ReturnProductDTO> {
+        const product = await this.prisma.product.findUnique({
             where: { id },
             include: {
                 vendor: {
@@ -46,7 +53,18 @@ export class ProductRepository {
                     },
                 },
             },
-        });
+        }) as ReturnProductDTO;
+        if (product) {
+            delete product.vendor.user.password;
+        }
+
+        return product;
+    }
+
+    async getAllFromUser(id: number) {
+        return await this.prisma.product.findMany({
+            where: { vendorId: id }
+        })
     }
 
     async updateOneById(id: number, newInfo: UpdateProductDTO) {

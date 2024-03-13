@@ -25,16 +25,19 @@ export class WishListRepository {
 
     async getAllFromUser(id: number) {
         return await this.prisma.wishlist.findMany({
-            where: { id },
+            where: { userId: id },
                 include: {
                     product: true
                 }
         });
     }
 
-    async remove(id: number) {
-        return await this.prisma.wishlist.delete({
-            where: { id }
-        })
+    async remove(wishList: CreateWishListDTO) {
+        return await this.prisma.wishlist.deleteMany({
+            where: { 
+                productId: wishList.productId,
+                userId: wishList.userId
+            },
+        });
     }
 }

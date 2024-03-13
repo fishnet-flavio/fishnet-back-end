@@ -16,8 +16,8 @@ export class WishListController {
         return await this.wishListService.getAllFromUser(id);
     }
 
-    @Delete()
-    async remove(@Body() id: number) {
-        return await this.wishListService.remove(id);
+    @Delete(":/productId:/userId")
+    async remove(@Param("productId") productId : number, @Param("userId") userId: number) {
+        return await this.wishListService.remove({ userId, productId } as CreateWishListDTO);
     }
 }
