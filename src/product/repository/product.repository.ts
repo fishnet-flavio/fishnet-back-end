@@ -61,10 +61,23 @@ export class ProductRepository {
         return product;
     }
 
-    async getAllFromUser(id: number) {
-        return await this.prisma.product.findMany({
-            where: { vendorId: id }
-        })
+    async getAllFromUser(id: number) : Promise<ReturnProductDTO[]> {
+        const product = await this.prisma.product.findMany({
+            where: { vendorId: id },
+            include: {
+                vendor: {
+                    include: {
+                        user: true
+                    },
+                },
+            },
+        }) as ReturnProductDTO[];
+        if (product) {
+            product.forEach(p => {
+                delete p.vendor.user.password;
+            });
+        }
+        return product;
     }
 
     async updateOneById(id: number, newInfo: UpdateProductDTO) {

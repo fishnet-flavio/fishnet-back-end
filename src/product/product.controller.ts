@@ -24,4 +24,10 @@ export class ProductController {
     async getOneById(@Param("id") id: number) {
         return await this.productService.getOneById(id);
     }
+
+    @Public()
+    @Get("/user/:id")
+    async getAllFromUser(@Param("id") id: number) {
+        return await this.productService.getAllFromUser(id);
+    }
 }

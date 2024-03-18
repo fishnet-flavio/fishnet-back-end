@@ -18,4 +18,8 @@ export class ProductService {
     async getOneById(productId: number) {
         return await this.productRepository.getOneById(productId);
     }
+
+    async getAllFromUser(id: number) {
+        return await this.productRepository.getAllFromUser(id);
+    }
 }
