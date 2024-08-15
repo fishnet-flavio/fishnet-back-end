@@ -8,6 +8,7 @@ import { Public } from "src/auth/decorator/public.decorator";
 export class ProductController {
     constructor(private readonly productService : ProductService) {}
     
+    @Public()
     @Post()
     async create(@Body() product : CreateProductDTO) {
         return await this.productService.create(product);
