@@ -13,13 +13,8 @@ export class WishListController {
         return await this.wishListService.create(wishlist); 
     }
 
-    @Get(":/id")
-    async getAllFromUser(@Param("id") id: number) {
-        return await this.wishListService.getAllFromUser(id);
-    }
-
-    @Delete(":/productId:/userId")
-    async remove(@Param("productId") productId : number, @Param("userId") userId: number) {
+    @Delete()
+    async remove(@Body() userId: number, productId: number) {
         return await this.wishListService.remove({ userId, productId } as CreateWishListDTO);
     }
 }

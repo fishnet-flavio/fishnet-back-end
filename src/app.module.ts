@@ -5,6 +5,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { PurchaseModule } from './purchase/purchase.module';
 import { WishListModule } from './wishlist/wishlist.module';
+import { ShoppingCartModule } from './shoppingcart/shoppingcart.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { WishListModule } from './wishlist/wishlist.module';
     PrismaModule,
     AuthModule,
     PurchaseModule,
-    WishListModule
+    WishListModule,
+    ShoppingCartModule,
   ],
   controllers: [],
   providers: [],

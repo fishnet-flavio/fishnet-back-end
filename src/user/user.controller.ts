@@ -20,6 +20,18 @@ export class UserController {
         return await this.userService.getOneByID(id);
     }
 
+    @Public()
+    @Get("/:id/wishlist")
+    async getAllWishlistFromUser(@Param("id") id: number) {
+        return await this.userService.getAllWishlistFromUser(id);
+    }
+
+    @Public()
+    @Get("/:id/shoppingcart")
+    async getAllShoppingCartFromUser(@Param("id") id: number) {
+        return await this.userService.getAllShoppingCartFromUser(id);
+    }
+
     @Patch("/:id")
     async update(@Param("id") id: number, @Body() newData: UpdateUserDTO) {
         return await this.userService.update(id, newData);

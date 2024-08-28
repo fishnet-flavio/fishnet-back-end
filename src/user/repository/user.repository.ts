@@ -45,6 +45,11 @@ export class UserRepository {
                         products: true,
                     },
                 },
+                wishList: {
+                    select: {
+                        id: true
+                    }
+                },
             },
         });
     }
@@ -53,6 +58,24 @@ export class UserRepository {
         return this.prisma.user.findUnique({
             where: { email }
         });
+    }
+
+    async getAllShoppingCartFromUser(id: number) {
+        return this.prisma.user.findUnique({
+            where: { id },
+            select: {
+                shoppingCart: true
+            }
+        })
+    }
+
+    async getAllWishlistFromUser(id: number) {
+        return this.prisma.user.findUnique({
+            where: { id },
+            select: {
+                wishList: true
+            }
+        })
     }
 
     async update(id: number, newData: UpdateUserDTO) {

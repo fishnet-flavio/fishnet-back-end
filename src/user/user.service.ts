@@ -19,6 +19,14 @@ export class UserService {
         return await this.userRepository.findOneByEmail(email);
     }
 
+    async getAllWishlistFromUser(id: number) {
+        return await this.userRepository.getAllWishlistFromUser(id);
+    }
+
+    async getAllShoppingCartFromUser(id: number) {
+        return await this.userRepository.getAllShoppingCartFromUser(id);
+    }
+
     async update(id: number, newData: UpdateUserDTO) {
         return await this.userRepository.update(id, newData);
     }

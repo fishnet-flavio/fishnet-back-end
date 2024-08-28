@@ -10,10 +10,6 @@ export class WishListService {
         return await this.wishListRepository.create(wishList);
     }
 
-    async getAllFromUser(id: number) {
-        return await this.wishListRepository.getAllFromUser(id);
-    }
-
     async remove(wishList: CreateWishListDTO) {
         return await this.wishListRepository.remove(wishList);
     }

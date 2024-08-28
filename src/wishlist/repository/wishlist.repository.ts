@@ -23,14 +23,6 @@ export class WishListRepository {
         });
     }
 
-    async getAllFromUser(id: number) {
-        return await this.prisma.wishlist.findMany({
-            where: { userId: id },
-                include: {
-                    product: true
-                }
-        });
-    }
 
     async remove(wishList: CreateWishListDTO) {
         return await this.prisma.wishlist.deleteMany({
