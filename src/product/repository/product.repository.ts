@@ -9,13 +9,14 @@ export class ProductRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async create(product: CreateProductDTO) {
-        const { price, name, stock, description, vendorId } = product;
+        const { price, name, stock, description, image, vendorId } = product;
         return await this.prisma.product.create({
             data:{
                 price,
                 name,
                 stock,
                 description,
+                image,
                 vendor: {
                     connect: {
                         id: vendorId

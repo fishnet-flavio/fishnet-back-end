@@ -12,6 +12,7 @@ model User {
   name         String
   email        String         @unique
   password     String
+  profilePicture Bytes?
   purchases    Purchase[]
   ratings      Rating[]
   shoppingCart ShoppingCart[]
@@ -36,6 +37,7 @@ model Product {
   name          String
   stock         Int
   description   String
+  image Bytes? 
   announcedAt   DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   vendorId      Int            @map("vendor_id")
@@ -47,6 +49,7 @@ model Product {
 
   @@map("products")
 }
+
 
 model Purchase {
   id        Int      @id @default(autoincrement())

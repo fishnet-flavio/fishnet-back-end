@@ -14,7 +14,6 @@ export class ShoppingCartRepository {
                 userId,
                 productId,
                 ammount,
-                addedAt: new Date()
             }
         });
     }

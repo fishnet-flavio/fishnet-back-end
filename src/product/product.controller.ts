@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { CreateProductDTO } from "./dto/create-product.dto";
 import { AuthGuard } from "src/auth/guard/auth.guard";
 import { Public } from "src/auth/decorator/public.decorator";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller("product")
 export class ProductController {
@@ -10,8 +11,15 @@ export class ProductController {
     
     @Public()
     @Post()
-    async create(@Body() product : CreateProductDTO) {
-        return await this.productService.create(product);
+    @UseInterceptors(FileInterceptor("image"))
+    async create(@UploadedFile() file, @Body() product : CreateProductDTO) {
+        if (file) {
+            const imageBuffer = file.buffer;
+            return await this.productService.create({...product, image:imageBuffer});
+        } else {
+            return await this.productService.create(product);
+        }
+        
     }
 
     @Public()

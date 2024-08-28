@@ -9,7 +9,7 @@ export class UserRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async create(user: CreateUserDTO) {
-        const { name, email, password, isVendor } = user;
+        const { name, email, password, profilePicture, isVendor } = user;
         
         if(isVendor) {
             return await this.prisma.user.create({
@@ -17,6 +17,7 @@ export class UserRepository {
                     name,
                     email,
                     password,
+                    profilePicture,
                     vendor: {
                         create: {},
                     },
