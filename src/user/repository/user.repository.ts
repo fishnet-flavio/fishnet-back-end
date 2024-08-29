@@ -47,12 +47,19 @@ export class UserRepository {
     }
 
     async getAllShoppingCartFromUser(id: number) {
-        return this.prisma.user.findUnique({
+        return this.prisma.user.findMany({
             where: { id },
             select: {
-                shoppingCart: true
+                shoppingCart: {
+                    select: {
+                        id: true,
+                        ammount: true,
+                        product: true,
+                        addedAt: true,
+                    }
+                }
             }
-        })
+        }) 
     }
 
     async getAllWishlistFromUser(id: number) {
