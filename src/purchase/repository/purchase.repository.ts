@@ -8,30 +8,53 @@ export class PurchaseRepository {
     constructor(private prisma: PrismaService) {}
 
     async create(purchase: CreatePurchaseDTO) {
-        const { buyerId, productId } = purchase
+        const { buyerId, products } = purchase
+
         return await this.prisma.purchase.create({
-            data: {
-                buyer: {
-                    connect: {
-                        id: buyerId
-                    }
-                },
-                product: {
-                    connect: {
-                        id: productId
-                    }
-                },
+        data: {
+        buyer: {
+            connect: {
+                id: buyerId,
             },
+        },
+        items: {
+            create: products.map((product) => ({
+            product: {
+                connect: { id: product.productId },
+            },
+            quantity: product.quantity,
+            })),
+        },
+        },
+        include: {
+            items: true,
+        },
         });
     }
     
-    async findAll() {
-        return await this.prisma.purchase.findMany();
+    async findAllForUser(id: number) {
+        return await this.prisma.purchase.findMany({
+            where: { buyerId: id },
+            include: {
+                items: {
+                    include: {
+                        product: true
+                    }
+                }
+            }
+        });
     }
 
     async findOneById(id: number) {
         return await this.prisma.purchase.findUnique({
             where: { id },
+            include: {
+                items: {
+                    include: {
+                        product: true
+                    }
+                }
+            }
         });
     }
 

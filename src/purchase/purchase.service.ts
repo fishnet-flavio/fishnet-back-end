@@ -9,4 +9,12 @@ export class PurchaseService {
     async create(purchase: CreatePurchaseDTO) {
         return await this.purchaseRepository.create(purchase);
     }
+
+    async findAllForUser(id: number) {
+        return await this.purchaseRepository.findAllForUser(id);
+    }
+
+    async findOneById(id: number) {
+        return await this.purchaseRepository.findOneById(id);
+    }
 }

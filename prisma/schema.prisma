@@ -43,7 +43,7 @@ model Product {
   vendorId      Int            @map("vendor_id")
   vendor        Vendor         @relation(fields: [vendorId], references: [id])
   rating        Rating[]
-  sales         Purchase[]
+  sales         PurchaseItem[]
   shoppingCarts ShoppingCart[]
   wishLists     Wishlist[]
 
@@ -54,12 +54,23 @@ model Product {
 model Purchase {
   id        Int      @id @default(autoincrement())
   buyerId   Int      @map("buyer_id")
-  productId Int      @map("product_id")
   date      DateTime @default(now())
   buyer     User     @relation(fields: [buyerId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  items PurchaseItem[]
 
   @@map("purchases")
+}
+
+model PurchaseItem {
+  id Int @id @default(autoincrement())
+  purchaseId Int @map("purchase_id")
+  productId Int @map("product_id")
+  quantity Int
+
+  purchase Purchase @relation(fields: [purchaseId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("purchase_items")
 }
 
 model Wishlist {

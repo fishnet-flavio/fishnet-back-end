@@ -1,10 +1,21 @@
-import { IsNumber } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsNumber, ValidateNested } from "class-validator";
+
+class ProductItemDTO {
+    @IsNumber()
+    productId: number;
+
+    @IsNumber()
+    quantity: number;
+}
 
 export class CreatePurchaseDTO {
     
     @IsNumber()
     buyerId: number;
     
-    @IsNumber()
-    productId: number;
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => ProductItemDTO)
+    products: ProductItemDTO[];
 }
