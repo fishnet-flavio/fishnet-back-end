@@ -25,7 +25,7 @@ export class ProductRepository {
         }});
     }
 
-    async getAll(): Promise<ReturnProductDTO[]>  {
+    async getAll()  {
         const product = await this.prisma.product.findMany({
             include: {
                 vendor: {
@@ -35,7 +35,7 @@ export class ProductRepository {
                 },
                 wishLists: true,
             },
-        }) as ReturnProductDTO[];
+        });
         if (product) {
             product.forEach(p => {
                 delete p.vendor.user.password;
@@ -44,7 +44,7 @@ export class ProductRepository {
         return product;
     }
 
-    async getOneById(id: number): Promise<ReturnProductDTO> {
+    async getOneById(id: number) {
         const product = await this.prisma.product.findUnique({
             where: { id },
             include: {
@@ -53,8 +53,10 @@ export class ProductRepository {
                         user: true
                     },
                 },
+                wishLists: true,
+                sales: true
             },
-        }) as ReturnProductDTO;
+        });
         if (product) {
             delete product.vendor.user.password;
         }
