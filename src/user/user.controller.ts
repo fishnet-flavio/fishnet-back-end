@@ -39,8 +39,6 @@ export class UserController {
         if (user?.profilePicture) {
             res.set('Content-Type', 'image/jpeg');
             res.send(user.profilePicture);
-        } else {
-            res.status(404).send('Imagem não encontrada');
         }
     }
 
