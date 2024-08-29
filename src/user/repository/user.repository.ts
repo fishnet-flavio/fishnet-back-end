@@ -51,11 +51,16 @@ export class UserRepository {
             where: { id },
             select: {
                 shoppingCart: {
-                    select: {
-                        id: true,
-                        ammount: true,
-                        product: true,
-                        addedAt: true,
+                    include: {
+                        product: {
+                            include: {
+                                vendor: {
+                                    include: {
+                                        user: true
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
