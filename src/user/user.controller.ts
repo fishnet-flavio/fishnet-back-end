@@ -59,6 +59,7 @@ export class UserController {
         return await this.userService.update(id, newData);
     }
 
+    @Public()
     @Delete("/:id")
     async delete(@Param("id") id: number) {
         return await this.userService.delete(id);

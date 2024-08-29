@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateShoppingCartDTO } from './dto/create-shoppingcart.dto';
 import { ShoppingCartService } from './shoppingcart.service';
+import { Public } from 'src/auth/decorator/public.decorator';
 
 @Controller("shoppingcart")
 export class ShoppingCartController {
@@ -17,8 +18,8 @@ export class ShoppingCartController {
     }
 
     @Delete("/:id")
-    async delete(@Param("id") id) {
-        return await this.service.delete(id);
+    async delete(@Param("id") id: number) {
+        return await this.service.delete(Number(id));
     }
 
 }
