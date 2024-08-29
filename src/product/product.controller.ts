@@ -12,14 +12,18 @@ export class ProductController {
     @Public()
     @Post()
     @UseInterceptors(FileInterceptor("image"))
-    async create(@UploadedFile() file, @Body() product : CreateProductDTO) {
-        if (file) {
-            const imageBuffer = file.buffer;
-            return await this.productService.create({...product, image:imageBuffer});
-        } else {
-            return await this.productService.create(product);
-        }
-        
+    async create(@UploadedFile() file, @Body() body: any) {
+        const { price, name, stock, description, vendorId } = body;
+        const product : CreateProductDTO = {
+            price,
+            name,
+            stock,
+            description,
+            image: file?.buffer,
+            vendorId
+        };
+
+        return await this.productService.create(product);
     }
 
     @Public()

@@ -11,16 +11,18 @@ export class UserController {
 
     @Public()
     @Post()
-    async createUser(@Body() user: CreateUserDTO) {
+    @UseInterceptors(FileInterceptor("profilePicture"))
+    async createUser(@Body() body: any, @UploadedFile() file: any) {
+        const { name, email, password, isVendor } = body;
+        const user: CreateUserDTO = {
+            name,
+            email,
+            password,
+            isVendor,
+            profilePicture: file?.buffer
+        };
+        
         return await this.userService.create(user);
-    }
-
-    @Post("/:id/upload-profile")
-    @UseInterceptors(FileInterceptor("image"))
-    async uploadProfileImage(@Param("id") id: number, @UploadedFile() file) {
-        const imageBuffer = file.buffer;
-
-        return await this.userService.update(id, { profilePicture: imageBuffer });
     }
 
     @Public()
