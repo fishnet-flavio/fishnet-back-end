@@ -37,21 +37,6 @@ export class UserRepository {
     async findOneById(id: number) {
         return await this.prisma.user.findUnique({
             where: { id },
-            select: {
-                id: true,
-                email: true,
-                name: true,
-                vendor: {
-                    include: {
-                        products: true,
-                    },
-                },
-                wishList: {
-                    select: {
-                        id: true
-                    }
-                },
-            },
         });
     }
 

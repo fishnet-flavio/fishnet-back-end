@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { Public } from "src/auth/decorator/public.decorator";
 import { UpdateUserDTO } from "./dto/update-user.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { Response } from "express";
 
 @Controller("user")
 export class UserController {
@@ -29,6 +30,18 @@ export class UserController {
     @Get("/:id")
     async getOneById(@Param("id") id: number) {
         return await this.userService.getOneByID(id);
+    }
+
+    @Public()
+    @Get("/:id/profile-picture")
+    async getProfilePicture(@Param('id') id: number, @Res() res: Response) {
+        const user = await this.userService.getOneByID(id);
+        if (user?.profilePicture) {
+            res.set('Content-Type', 'image/jpeg');
+            res.send(user.profilePicture);
+        } else {
+            res.status(404).send('Imagem não encontrada');
+        }
     }
 
     @Public()
